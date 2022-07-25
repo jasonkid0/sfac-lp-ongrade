@@ -55,8 +55,8 @@ class PDF extends FPDF
     LEFT JOIN tbl_faculties_staff ON tbl_faculties_staff.faculty_id = tbl_schedules.faculty_id   
     LEFT JOIN tbl_schoolyears ON tbl_schoolyears.stud_id = tbl_students.stud_id
     LEFT JOIN tbl_courses ON tbl_courses.course_id = tbl_schoolyears.course_id
-    WHERE tbl_enrolled_subjects.acad_year = '$_SESSION[active_acad]' 
-    AND tbl_enrolled_subjects.semester='$_SESSION[active_sem]' 
+    WHERE tbl_schoolyears.ay_id = '$_SESSION[active_acad]' 
+    AND tbl_schoolyears.sem_id ='$_SESSION[active_sem]' 
     AND tbl_subjects_new.subj_code = '$_GET[code]' 
     AND tbl_schedules.section = '$_GET[section]'
     And tbl_schoolyears.remark = 'Approved' 
@@ -355,7 +355,7 @@ class PDF extends FPDF
         $this->SetFontSize(8);
         $this->Cell(20, 5, 'Prepared by:', 0, 0);
         $this->SetFont('Arial', 'B', '10');
-        $this->Cell(50, 5, utf8_decode($row['fullname']), 'B', 0, 'C'); //=====================PROFESSOR NAME=================
+        $this->Cell(50, 5, $row['fullname'], 'B', 0, 'C'); //=====================PROFESSOR NAME=================
         $this->Cell(5, 5, '', 0, 0);
         $this->Cell(30, 5, date('M d, Y'), 'B', 1, 'C');
 
@@ -378,12 +378,7 @@ class PDF extends FPDF
         $this->Cell(30, 5, '', 'B', 0);
         $this->Cell(15, 5, '', 0, 0);
         $this->SetFont('Arial', 'B', '10');
-        $this->Cell(50, 5, 'Aries Roldan, LPT, MaED', 'B', 1, 'C'); //=========================REGISTRAR NAME====================
-        
-        
-       
-        
-        
+        $this->Cell(50, 5, 'Aries Roldan', 'B', 1, 'C'); //=========================REGISTRAR NAME====================
         $this->SetFont('Arial', '', '8');
         $this->Cell(20, 5, '', 0, 0);
         $this->Cell(50, 5, 'Campus Director, College Dean', 0, 0, 'C');
@@ -396,7 +391,7 @@ class PDF extends FPDF
 
         $this->Cell(20, 5, 'Received by:', 0, 0);
         $this->SetFont('Arial', 'B', '10');
-        $this->Cell(50, 5, 'Rowena Bondoc', 'B', 0, 'C'); //=================RECORD VERIFIER=================
+        $this->Cell(50, 5, 'Marilyn Montefalcon', 'B', 0, 'C'); //=================RECORD VERIFIER=================
         $this->SetFont('Arial', '', '8');
         $this->Cell(5, 5, '', 0, 0);
         $this->Cell(30, 5, '', 'B', 0);
@@ -404,7 +399,7 @@ class PDF extends FPDF
 
 
         $this->Cell(20, 4, '', 0, 0);
-        $this->Cell(50, 4, 'Chief Evaluator', 0, 0, 'C');
+        $this->Cell(50, 4, 'Record Verifier', 0, 0, 'C');
         $this->Cell(5, 4, '', 0, 0);
         $this->Cell(30, 4, 'Date', 0, 0, 'C');
         $this->Cell(5, 4, '', 0, 1);
@@ -878,8 +873,8 @@ $que = mysqli_query(
     LEFT JOIN tbl_schedules ON tbl_schedules.class_id = tbl_enrolled_subjects.class_id LEFT JOIN tbl_faculties_staff ON tbl_faculties_staff.faculty_id = tbl_schedules.faculty_id 
     LEFT JOIN tbl_schoolyears ON tbl_schoolyears.stud_id = tbl_students.stud_id
     LEFT JOIN tbl_courses ON tbl_courses.course_id = tbl_schoolyears.course_id
-    WHERE tbl_enrolled_subjects.acad_year = '$_SESSION[active_acad]' 
-    AND tbl_enrolled_subjects.semester='$_SESSION[active_sem]' 
+    WHERE tbl_schoolyears.ay_id = '$_SESSION[active_acad]' 
+    AND tbl_schoolyears.sem_id ='$_SESSION[active_sem]' 
     AND tbl_subjects_new.subj_code = '$_GET[code]' 
     AND tbl_schedules.section = '$_GET[section]' 
     AND tbl_schoolyears.remark = 'Approved' 

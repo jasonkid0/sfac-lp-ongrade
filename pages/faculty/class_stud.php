@@ -36,7 +36,7 @@ include '../../includes/db.php';
                 where subj_code = '$_GET[code]' LIMIT 1");
               while ($row = mysqli_fetch_array($que)) {
                 ?>
-              <h2 class="box-title">Students Enrolled in <strong><?php echo $_GET['code'].' - '.$row['subj_desc']; ?></strong> - Section <strong><?php echo $_GET['section'] ?></strong></h2>
+              <h2 class="box-title">Students Enrolled in <strong><?php echo $_GET['code'].' - '.$_GET['class_desc']; ?></strong> - Section <strong><?php echo $_GET['section'] ?></strong></h2>
             <?php } ?>
               <a href="javascript:history.back()" class="btn btn-primary pull-right">Back</a>
             </div>
@@ -73,8 +73,8 @@ include '../../includes/db.php';
                         LEFT JOIN tbl_faculties_staff ON tbl_faculties_staff.faculty_id = tbl_schedules.faculty_id   
                         LEFT JOIN tbl_schoolyears ON tbl_schoolyears.stud_id = tbl_students.stud_id
                         LEFT JOIN tbl_courses ON tbl_courses.course_id = tbl_schoolyears.course_id
-                        WHERE tbl_enrolled_subjects.acad_year = '$_SESSION[active_acad]' 
-                        AND tbl_enrolled_subjects.semester='$_SESSION[active_sem]' 
+                        WHERE tbl_schoolyears.ay_id = '$_SESSION[active_acad]' 
+                        AND tbl_schoolyears.sem_id ='$_SESSION[active_sem]' 
                         AND tbl_subjects_new.subj_code = '$_GET[code]' 
                         AND tbl_schedules.section = '$_GET[section]'
                         And tbl_schoolyears.remark= 'Approved'
@@ -308,7 +308,7 @@ if (isset($_POST['btn_save']))
                       }else{
                       $finalterm = mysqli_real_escape_string($db,$_POST['finalterm']);
                       }
-                      $ofgrade = mysqli_real_escape_string($db,number_format( (float)( ($midterm * 0.5) + ($finalterm * 0.5)), 2, '.', '' ) );
+                      $ofgrade = mysqli_real_escape_string($db,number_format( (float)( ($midterm * 0.4) + ($finalterm * 0.6)), 2, '.', '' ) );
 
                       if ($midterm == '0' || $finalterm == '0') {
                         $remarks = mysqli_real_escape_string($db,'INC');

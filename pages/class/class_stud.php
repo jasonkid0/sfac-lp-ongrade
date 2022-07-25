@@ -33,10 +33,10 @@ include '../../includes/db.php';
               <?php $que= mysqli_query($db,"
                 SELECT * 
                 FROM tbl_subjects_new 
-                where subj_code = '$_GET[code]' LIMIT 1")  or die(mysqli_error($db));
+                where subj_code = '$_GET[code]' LIMIT 1");
               while ($row = mysqli_fetch_array($que)) {
                 ?>
-              <h2 class="box-title">Students Enrolled in <strong><?php echo $_GET['code'].' - '.$row['subj_desc']; ?></strong> - Section <strong><?php echo $_GET['section'] ?></strong></h2>
+              <h2 class="box-title">Students Enrolled in <strong><?php echo $_GET['code'].' - '.$_GET['class_desc']; ?></strong> - Section <strong><?php echo $_GET['section'] ?></strong></h2>
             <?php } ?>
               <a href="javascript:history.back()" class="btn btn-primary pull-right">Back</a>
             </div>
@@ -65,18 +65,20 @@ include '../../includes/db.php';
                   <?php 
 
                   $que = mysqli_query($db,
-                  "SELECT *,tbl_students.img,CONCAT(tbl_students.lastname, ', ', tbl_students.firstname, ' ', tbl_students.middlename)  as fullname FROM tbl_enrolled_subjects 
-                  LEFT JOIN tbl_subjects_new ON tbl_subjects_new.subj_id = tbl_enrolled_subjects.subj_id
-                  LEFT JOIN tbl_students ON tbl_students.stud_id = tbl_enrolled_subjects.stud_id
-                  LEFT JOIN tbl_schedules ON tbl_schedules.class_id = tbl_enrolled_subjects.class_id LEFT JOIN tbl_faculties_staff ON tbl_faculties_staff.faculty_id = tbl_schedules.faculty_id 
-                  LEFT JOIN tbl_schoolyears ON tbl_schoolyears.stud_id = tbl_students.stud_id
-                  LEFT JOIN tbl_courses ON tbl_courses.course_id = tbl_schoolyears.course_id
-                  WHERE tbl_enrolled_subjects.acad_year = '$_SESSION[active_acad]' 
-                  AND tbl_enrolled_subjects.semester='$_SESSION[active_sem]' 
-                  AND tbl_subjects_new.subj_code = '$_GET[code]' 
-                  AND tbl_schedules.section = '$_GET[section]' 
-                  AND tbl_schoolyears.remark = 'Approved' 
-                  ORDER BY fullname");
+                        "SELECT *,tbl_students.img,CONCAT(tbl_students.lastname, ', ', tbl_students.firstname, ' ', tbl_students.middlename)  AS fullname
+                        FROM tbl_enrolled_subjects 
+                        LEFT JOIN tbl_subjects_new ON tbl_subjects_new.subj_id = tbl_enrolled_subjects.subj_id
+                        LEFT JOIN tbl_students ON tbl_students.stud_id = tbl_enrolled_subjects.stud_id
+                        LEFT JOIN tbl_schedules ON tbl_schedules.class_id = tbl_enrolled_subjects.class_id
+                        LEFT JOIN tbl_faculties_staff ON tbl_faculties_staff.faculty_id = tbl_schedules.faculty_id   
+                        LEFT JOIN tbl_schoolyears ON tbl_schoolyears.stud_id = tbl_students.stud_id
+                        LEFT JOIN tbl_courses ON tbl_courses.course_id = tbl_schoolyears.course_id
+                        WHERE tbl_schoolyears.ay_id = '$_SESSION[active_acad]' 
+                        AND tbl_schoolyears.sem_id ='$_SESSION[active_sem]' 
+                        AND tbl_subjects_new.subj_code = '$_GET[code]' 
+                        AND tbl_schedules.section = '$_GET[section]'
+                        And tbl_schoolyears.remark= 'Approved'
+                        ORDER BY fullname");
 
                   while($row = mysqli_fetch_array($que)){
                     echo'<tr> <style>
@@ -115,7 +117,7 @@ include '../../includes/db.php';
                               echo'<td>'.$row['absences'].'</td>
                               
                                     <td>
-                                      <a href="edit_class_stud.php?stud_id='.$row['stud_id'].'&code='.$_GET['code'].'&section='.$row['section'].'" class="btn btn-danger disabled">Transfer to other Section</a>
+                                      <a href="../class/edit_class_stud.php?stud_id='.$row['stud_id'].'&code='.$_GET['code'].'&section='.$row['section'].'" class="btn btn-danger">Transfer to other Section</a>
                                       <button class="btn btn-success btn-sm" data-target="#editModal'.$row['enrolled_subj_id'].'" data-toggle="modal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Enter Grade</button>
                                     </td>
                           </tr> 
@@ -306,7 +308,7 @@ if (isset($_POST['btn_save']))
                       }else{
                       $finalterm = mysqli_real_escape_string($db,$_POST['finalterm']);
                       }
-                      $ofgrade = mysqli_real_escape_string($db,number_format( (float)( ($midterm * 0.5) + ($finalterm * 0.5)), 2, '.', '' ) );
+                      $ofgrade = mysqli_real_escape_string($db,number_format( (float)( ($midterm * 0.4) + ($finalterm * 0.6)), 2, '.', '' ) );
 
                       if ($midterm == '0' || $finalterm == '0') {
                         $remarks = mysqli_real_escape_string($db,'INC');
