@@ -86,6 +86,9 @@ echo '
         <li>
           <a href="../dashboard/view_curri.php"><i class="fa fa-list"></i> <span>View Curri with Grades</span></a>
         </li>
+        <li>
+          <a href="../faqs/faqs.php"><i class="fa fa-list"></i> <span>FAQs</span></a>
+        </li>
         
         '
         ;
@@ -115,6 +118,9 @@ echo '
          
          <li>
         <a href="../view_curri/curri-empty.php?stud_id='.$_SESSION['userid'].'"><i class="fa fa-book"></i> <span>View Empty Curri</span></a>
+        </li>
+        <li>
+          <a href="../faqs/faqs.php"><i class="fa fa-list"></i> <span>FAQs</span></a>
         </li>
         
         
@@ -317,6 +323,9 @@ echo '
         </li>
         <li>
           <a href="../class/class_history.php?stud_id='.$_SESSION['userid'].'"><i class="fa fa-book"></i> <span>Class History</span></a>
+        </li>
+        <li>
+          <a href="../faqs/faqs.php"><i class="fa fa-list"></i> <span>FAQs</span></a>
         </li>
         ';
       }
