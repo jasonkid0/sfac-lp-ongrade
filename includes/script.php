@@ -29,6 +29,20 @@
   })
 
   $(function () {
+    $('#example1').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : false,
+      'info'        : true,
+      'autoWidth'   : false,
+      'pageLength'  : 100
+    })
+    // $('#example1').DataTable()
+    
+  })
+
+  $(function () {
     $('#examp').DataTable({
       'paging'      : true,
       'lengthChange': true,
